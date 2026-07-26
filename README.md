@@ -103,7 +103,9 @@ a matter of writing a new `ProductRepository` implementation and overriding
   isolated from widgets, so it's covered by tests that don't need a device:
   `flutter test` runs a `CartController` unit test suite plus widget tests
   for onboarding, product search/error states, and checkout validation.
-- Product images are drawn as icon/color placeholders rather than network
-  images, keeping the prototype fully offline and its tests deterministic;
-  swapping in `Image.network`/`cached_network_image` per product is a
-  localized change to `ProductCard`.
+- Product and onboarding images are bundled local assets (`assets/images/`,
+  referenced via `AppImages` path constants) rendered with `Image.asset`,
+  rather than network images — this keeps the prototype fully offline and
+  its tests deterministic. Swapping in `Image.network`/`cached_network_image`
+  per product is a localized change to `ProductCard` (and the `Product`
+  model's `imagePath` field would just hold a URL instead of an asset path).

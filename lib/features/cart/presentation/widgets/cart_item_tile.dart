@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/theme/app_theme.dart';
 import '../../../../shared/models/cart_item.dart';
+import '../../../../shared/widgets/circle_icon_button.dart';
 import '../../../../shared/widgets/currency.dart';
 import '../../../../shared/widgets/quantity_stepper.dart';
 import '../../providers/cart_provider.dart';
@@ -47,14 +48,20 @@ class CartItemTile extends ConsumerWidget {
                         style: const TextStyle(fontWeight: FontWeight.w600),
                       ),
                     ),
-                    Text(
-                      product.category,
-                      style: const TextStyle(
-                        fontSize: 12,
-                        color: AppColors.textSecondary,
-                      ),
+                    CircleIconButton(
+                      icon: Icons.delete_outline_rounded,
+                      visualSize: 32,
+                      tooltip: 'Remove from cart',
+                      onPressed: () => cart.remove(product.id),
                     ),
                   ],
+                ),
+                Text(
+                  product.category,
+                  style: const TextStyle(
+                    fontSize: 12,
+                    color: AppColors.textSecondary,
+                  ),
                 ),
                 const SizedBox(height: AppSpacing.xs),
                 Text(

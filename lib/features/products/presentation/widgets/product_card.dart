@@ -54,7 +54,8 @@ class _ProductCardState extends State<ProductCard> {
                       icon: _isFavorite
                           ? Icons.favorite_rounded
                           : Icons.favorite_border_rounded,
-                      size: 28,
+                      visualSize: 28,
+                      tooltip: _isFavorite ? 'Remove favorite' : 'Add favorite',
                       onPressed: () => setState(() => _isFavorite = !_isFavorite),
                     ),
                   ),

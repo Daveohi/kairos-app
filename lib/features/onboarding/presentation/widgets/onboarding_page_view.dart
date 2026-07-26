@@ -51,73 +51,91 @@ class _OnboardingPageViewState extends State<OnboardingPageView>
     final heroSlide = offset * 80;
     final textSlide = offset * 32;
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          AnimatedBuilder(
-            animation: _bobController,
-            builder: (context, child) {
-              final bob = math.sin(_bobController.value * 2 * math.pi) * 6;
-              return Transform.translate(
-                offset: Offset(heroSlide, bob),
-                child: Opacity(
-                  opacity: opacity,
-                  child: Transform.scale(scale: scale, child: child),
-                ),
-              );
-            },
-            child: _Hero(imagePath: widget.data.imagePath),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        // On short viewports (landscape phones, small tablets in split
+        // view) shrink the hero image so the page fits without clipping,
+        // and let the remaining content scroll instead of overflowing.
+        final heroSize = constraints.maxHeight < 480 ? 160.0 : 260.0;
+
+        return SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(
+            horizontal: AppSpacing.lg,
+            vertical: AppSpacing.md,
           ),
-          const SizedBox(height: AppSpacing.xl),
-          Opacity(
-            opacity: opacity,
-            child: Transform.translate(
-              offset: Offset(textSlide, 0),
-              child: Column(
-                children: [
-                  Text(
-                    widget.data.title,
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                      fontWeight: FontWeight.bold,
+          child: ConstrainedBox(
+            constraints: BoxConstraints(minHeight: constraints.maxHeight),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                AnimatedBuilder(
+                  animation: _bobController,
+                  builder: (context, child) {
+                    final bob = math.sin(_bobController.value * 2 * math.pi) * 6;
+                    return Transform.translate(
+                      offset: Offset(heroSlide, bob),
+                      child: Opacity(
+                        opacity: opacity,
+                        child: Transform.scale(scale: scale, child: child),
+                      ),
+                    );
+                  },
+                  child: _Hero(imagePath: widget.data.imagePath, size: heroSize),
+                ),
+                const SizedBox(height: AppSpacing.xl),
+                Opacity(
+                  opacity: opacity,
+                  child: Transform.translate(
+                    offset: Offset(textSlide, 0),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          widget.data.title,
+                          textAlign: TextAlign.center,
+                          style: Theme.of(context).textTheme.headlineSmall
+                              ?.copyWith(fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(height: AppSpacing.sm),
+                        Text(
+                          widget.data.description,
+                          textAlign: TextAlign.center,
+                          style: Theme.of(context).textTheme.bodyLarge
+                              ?.copyWith(color: AppColors.textSecondary),
+                        ),
+                      ],
                     ),
                   ),
-                  const SizedBox(height: AppSpacing.sm),
-                  Text(
-                    widget.data.description,
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                      color: AppColors.textSecondary,
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 }
 
 class _Hero extends StatelessWidget {
-  const _Hero({required this.imagePath});
+  const _Hero({required this.imagePath, required this.size});
 
   final String imagePath;
+  final double size;
 
   @override
   Widget build(BuildContext context) {
+    final glowSize = size - 40;
+    final imageSize = size - 20;
+
     return SizedBox(
-      width: 260,
-      height: 260,
+      width: size,
+      height: size,
       child: Stack(
         alignment: Alignment.center,
         children: [
           Container(
-            width: 220,
-            height: 220,
+            width: glowSize,
+            height: glowSize,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               gradient: RadialGradient(
@@ -132,8 +150,8 @@ class _Hero extends StatelessWidget {
             borderRadius: BorderRadius.circular(100),
             child: Image.asset(
               imagePath,
-              width: 240,
-              height: 240,
+              width: imageSize,
+              height: imageSize,
               fit: BoxFit.cover,
             ),
           ),
