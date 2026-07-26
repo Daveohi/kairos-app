@@ -1,29 +1,15 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../core/constants/app_constants.dart';
-import '../../../core/providers/shared_preferences_provider.dart';
-
-/// Tracks whether the user has completed onboarding, persisted locally.
+/// Tracks whether the user has completed onboarding for this app session.
+/// Intentionally not persisted — onboarding is shown every time the app is
+/// launched or resumed, not just for first-time users.
 class OnboardingController extends StateNotifier<bool> {
-  OnboardingController(this._ref)
-    : super(
-        _ref
-            .read(sharedPreferencesProvider)
-            .getBool(AppConstants.onboardingCompleteKey) ??
-            false,
-      );
+  OnboardingController() : super(false);
 
-  final Ref _ref;
-
-  Future<void> complete() async {
-    state = true;
-    await _ref
-        .read(sharedPreferencesProvider)
-        .setBool(AppConstants.onboardingCompleteKey, true);
-  }
+  void complete() => state = true;
 }
 
 final onboardingCompleteProvider =
     StateNotifierProvider<OnboardingController, bool>(
-      (ref) => OnboardingController(ref),
+      (ref) => OnboardingController(),
     );

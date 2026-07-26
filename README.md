@@ -24,8 +24,9 @@ flutter test
 
 ## What's implemented
 
-- **Onboarding** — 3-step `PageView` with skip, dot indicator, and a
-  persisted "seen onboarding" flag (SharedPreferences) so it only shows once.
+- **Onboarding** — 3-step animated `PageView` (scroll-linked parallax, idle
+  hero-image bob, animated dot indicator) with skip. Shown once per app
+  session, not persisted — it appears again every time the app is relaunched.
 - **Product listing** — grid layout, live search, category filter chips,
   sort menu (relevance/price/name), pull-to-refresh, and loading/empty/error
   states with retry.
