@@ -38,12 +38,8 @@ class ProductListScreen extends ConsumerWidget {
                 ),
                 sliver: SliverToBoxAdapter(
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      const CircleIconButton(
-                        icon: Icons.menu_rounded,
-                        tooltip: 'Menu',
-                      ),
-                      const Spacer(),
                       const SortMenu(),
                       const SizedBox(width: AppSpacing.sm),
                       CircleIconButton(
