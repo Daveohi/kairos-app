@@ -15,7 +15,11 @@ void main() {
         child: const KairosApp(),
       ),
     );
-    await tester.pumpAndSettle();
+    // The onboarding hero image has a perpetual idle "bob" animation, so
+    // pumpAndSettle (which waits for all animations to finish) would hang;
+    // pump a fixed duration instead.
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 700));
 
     expect(find.text('Same-day delivery'), findsOneWidget);
   });

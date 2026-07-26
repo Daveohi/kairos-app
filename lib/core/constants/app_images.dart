@@ -1,6 +1,10 @@
-/// Bundled product photo asset paths (see `assets/images/products/`).
+/// Bundled image asset paths (see `assets/images/`).
 class AppImages {
   AppImages._();
+
+  static const onboarding1 = 'assets/images/onboard1.png';
+  static const onboarding2 = 'assets/images/onboard2.png';
+  static const onboarding3 = 'assets/images/onboard3.png';
 
   static const _base = 'assets/images/products';
 
