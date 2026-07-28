@@ -5,6 +5,17 @@ a searchable/filterable product catalog, and a cart-to-checkout flow. Built
 as a skill-verification case study — see [ASSIGNMENT.md](ASSIGNMENT.md) for
 the original brief.
 
+## Screenshots
+
+| Onboarding 1 | Onboarding 2 | Onboarding 3 |
+|---|---|---|
+| ![Onboarding 1](assets/screens/Onboard%20screen%201.png) | ![Onboarding 2](assets/screens/Onboard%20screen%202.png) | ![Onboarding 3](assets/screens/Onboard%20screen%203.png) |
+
+| Product listing | Cart | Checkout |
+|---|---|---|
+| ![Product listing](assets/screens/Product%20screen.png) | ![Cart](assets/screens/Cart%20screen.png) | ![Checkout](assets/screens/Checkout%20screen.png) |
+| ![Product listing Light](assets/screens/products.png) | ![Cart Light](assets/screens/cart.png) | ![Checkout Light](assets/screens/checkout.png) |
+
 ## Getting started
 
 **Requirements**: Flutter 3.29+ (Dart 3.7+), a connected device/emulator or
@@ -21,6 +32,12 @@ Run the test suite:
 flutter analyze
 flutter test
 ```
+
+## CI/CD
+
+A GitHub Actions workflow (`.github/workflows/ci.yml`) runs `flutter analyze`
+and `flutter test` on every push and pull request to `main`, so regressions
+are caught before merge rather than relying on manual runs.
 
 ## What's implemented
 
